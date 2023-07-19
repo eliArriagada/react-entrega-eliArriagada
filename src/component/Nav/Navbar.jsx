@@ -2,7 +2,7 @@ import React from "react";
 import Item from "./Item";
 import CartWidget from "./CartWidget";
 const Navbar = ({ nombre }) => {
-let numeroCarro = 2;
+let numeroCarro = 1;
 
   return (
     <>
