@@ -4,7 +4,7 @@ const CartWidget = ({ cantidad }) => {
   return (
     <>
       <div className="d-flex" role="search">
-        <span className="material-symbols-outlined">shopping_cart</span>({cantidad})
+      <i className="bi bi-cart-fill"></i>({cantidad})
       </div>
     </>
   );

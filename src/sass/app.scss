@@ -1,0 +1,86 @@
+// Variable overrides first
+$primary: #ec5598;
+$enable-shadows: true;
+$prefix: "mo-";
+$box-shadow:                 none;
+$box-shadow-sm:               none;
+$box-shadow-lg:               none;
+$box-shadow-inset:            inset;
+$grid-breakpoints: (xs: 0,
+    sm: 300px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px) !default;
+// Then import Bootstrap
+$bootstrap-icons-font-src: url("../../node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2") format("woff2"), url("../../node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff");
+
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+.btn{
+    border-radius: 0%;
+    height: 2.575rem;
+    color: white;
+    width: 7rem;
+    margin: 3rem 3px;
+    :hover{
+        color: white;
+    }
+}
+
+.card{
+    width: 100%;
+}
+
+
+.bi{
+    font-size: 1.1rem
+}
+
+.banner{
+    background-repeat: repeat-x;
+    height: 50rem;
+    padding: 1rem;
+}
+
+
+.nav-item{
+    width: 10rem;
+    height: 3rem;
+    margin: 0rem 1rem;
+    cursor:pointer;
+    &:hover{
+        color: aqua;
+        background-color: $primary;
+        
+    }
+    & a {
+        text-decoration: none;
+    }
+}
+
+.active {
+    border-bottom: solid 2px $primary;
+}
+
+img.card-img-top{
+    object-fit: cover;
+}
+.card-img-top{
+    max-height: 15rem;
+}
+
+.btn-circle {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+
+
+footer {
+    height: 30rem;
+}
+

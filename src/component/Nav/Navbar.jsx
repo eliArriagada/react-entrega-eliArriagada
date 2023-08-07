@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Item from "./Item";
 import CartWidget from "./CartWidget";
-const Navbar = ({ nombre }) => {
+
+const Navbar = ({ nombre, categorias }) => {
 let numeroCarro = 1;
+
+  const [navActive, setActive] = useState("Home")
 
   return (
     <>
@@ -24,11 +27,12 @@ let numeroCarro = 1;
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <Item nombre="Home" link="asd" active={true}></Item>
-              <Item nombre="Cortes" link="asd"></Item>
-              <Item nombre="Tinturas" link="asd"></Item>
-              <Item nombre="Novias" link="asd"></Item>
-              <Item nombre="Eventos" link="asd"></Item>
+            <Item nombre="Home" link="/" active={navActive} setActive={setActive}></Item>
+              {categorias.map(categoria => 
+                <>
+                 <Item nombre={categoria} link={`/category/${categoria}`} active={navActive} setActive={setActive}></Item>
+                 </>
+              )}
             </ul>
             <CartWidget cantidad={numeroCarro}></CartWidget>
           </div>
