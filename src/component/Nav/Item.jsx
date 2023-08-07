@@ -1,16 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Item = ({ nombre, link, active }) => {
+const Item = ({ nombre, link, active, setActive }) => {
+
   return (
     <>
-      <li className="nav-item">
-        <a
-          className={active ? "nav-link active" : "nav-link"}
-          aria-current="page"
-          href={link}
-        >
+    <li className={active === nombre ? "nav-item active" : "nav-item"}  onClick={()=>setActive(nombre)}>
+    <Link to={link}>
+        <div
+          className="nav-link text-center"
+          aria-current="page">
           {nombre}
-        </a>
+        </div>
+        </Link>
       </li>
     </>
   );
