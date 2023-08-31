@@ -19760,6 +19760,10 @@ textarea.form-control-lg {
   text-decoration: none;
 }
 
+.t-decoration-n {
+  text-decoration: none;
+}
+
 .active {
   border-bottom: solid 2px #ec5598;
 }

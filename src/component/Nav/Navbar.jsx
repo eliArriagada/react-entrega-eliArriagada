@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Item from "./Item";
 import CartWidget from "./CartWidget";
-
+import { Link } from "react-router-dom";
+import { CartContext } from "../../context/ShoppingCartContext";
 const Navbar = ({ nombre, categorias }) => {
-let numeroCarro = 1;
+const {longitud} = useContext(CartContext)
+let numeroCarro = longitud;
 
-  const [navActive, setActive] = useState("Home")
+const { navActive, setActive } = useContext(CartContext)
+
+
 
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <Link className="t-decoration-n" to="/" onClick={()=>setActive("Home")}>
             <h1>{nombre}</h1>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -27,7 +31,6 @@ let numeroCarro = 1;
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <Item nombre="Home" link="/" active={navActive} setActive={setActive}></Item>
               {categorias.map(categoria => 
                 <>
                  <Item nombre={categoria} link={`/category/${categoria}`} active={navActive} setActive={setActive}></Item>
