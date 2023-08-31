@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import products from '../data/products'
 import { CartContext } from '../context/ShoppingCartContext'
 import swal from 'sweetalert';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function CartDetailContainer() {
     const removeElement = (array, element) => {
@@ -14,11 +17,17 @@ function CartDetailContainer() {
         swal("Se ha eliminado el producto del carro")
     }
     const { cart, setCart } = useContext(CartContext)
+    const { setActive } = useContext(CartContext)
+
+    const [startDate, setStartDate] = useState(new Date());
+
+    const [nombre, setNombre] = useState("");
+    const [esDomicilio, setEsDomicilio] = useState(false);
 
 
+
+    setActive("home")
     const navigate = useNavigate()
-
-
     const cuerpo = cart.map(producto => {
         return (
             <tr>
@@ -37,7 +46,6 @@ function CartDetailContainer() {
 
 
     const sum = cart.map(x => parseInt(x.precioNumerico)).length > 0 ? cart.map(x => parseInt(x.precioNumerico)).reduce((total, item) => total + item) : 0
-
 
     return (
         <div className='container'>
@@ -62,11 +70,7 @@ function CartDetailContainer() {
                                 </tr>
                             </thead>
                             <tbody id="tablaDatos">
-                                {
-                                    cuerpo
-                                }
-
-
+                                {cuerpo}
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -89,7 +93,41 @@ function CartDetailContainer() {
                         </>
                     }
                 </div>
-                <div class="row py-3 text-right text-end carro-productos">
+               
+            </div>
+            {cart.length > 0 ?<>
+            <div class="row my-5">
+                <div class="col-3 ">
+                    <h2 id="titulo" class="">Datos Contacto</h2>
+
+                </div>
+                <div class="col d-block">
+                    <hr class="border border-primary border-3 opacity-75" />
+                </div>
+            </div>
+            <div class="row carro-productos p-5">
+                <div class="col">
+                    <div class="form-group p-2">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" value={nombre} onChange={(e)=>{
+                            setNombre(e.target.value)}} id="nombre" placeholder="Ingresa tu nombre" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="fecha">Fecha de Servicio:</label> <br />
+                        <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="domicilio">¿Es a domicilio?</label>
+                        <select class="form-control" onChange={(e)=>{setEsDomicilio(e.target.value==="si")}} id="domicilio">
+                            <option value="si">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row py-3 text-right text-end carro-productos">
                     <div class="col-6 col-sm-12 py-3">
                         <button id="botonPagar" type="button" class="btn btn-primary" onClick={() =>
 
@@ -100,13 +138,30 @@ function CartDetailContainer() {
                             })
                                 .then((confirmar) => {
                                     if (confirmar) {
-                                        navigate(`/confirmacion`);
+                                        
+                                        const pedido = {
+                                            fecha: new Date(),
+                                            producto: cart,
+                                            persona: {nombre,startDate,esDomicilio},
+                                            total: sum
+                                        }
+
+                                        const bd = getFirestore();
+                                        const pedidoCollection = collection(bd, "pedido");
+                                        addDoc(pedidoCollection, pedido)
+                                            .then(({ id }) => {
+                                                setCart([])
+                                                navigate(`/confirmacion/${id}`);
+                                            })
+                                            .then(() => {
+
+                                            })
                                     }
                                 })
                         }>Pagar</button>
                     </div>
                 </div>
-            </div>
+                </>:<></>}
         </div>
 
     )

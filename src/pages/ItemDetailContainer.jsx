@@ -1,14 +1,26 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import products from '../data/products'
 import { CartContext } from '../context/ShoppingCartContext'
 import swal from 'sweetalert';
+import {  doc, getDoc, getFirestore } from 'firebase/firestore';
 
 function ItemDetailContainer() {
     const { product } = useParams()
-    const producto = products.filter(x => x.id == product)[0]
+    const [producto, setProducs] = useState({})
     const [counter, setCounter] = useState(1)
     const {cart, setCart} = useContext(CartContext)
+
+
+    useEffect(() => {
+        const bd = getFirestore();
+        const productosColection = doc(bd, "products",product)
+        getDoc(productosColection).then(snapshot => {
+            if(snapshot.exists()){
+                setProducs({ id: snapshot.id, ...snapshot.data() })
+            }
+        });
+      }, [])
+
 
     const increment = () => {
         if (counter < 10) {
@@ -66,9 +78,10 @@ function ItemDetailContainer() {
                             </div>
                             <div class="row py-3">
                                 <button id="botonAgregar" type="button" class="btn btn-primary"  onClick={()=>{
+                                    const newProducts = [...cart];
                                     for (let index = 0; index < counter; index++) {
-                                        cart.push(producto)
-                                        setCart(cart)
+                                        newProducts.push(producto)
+                                        setCart(newProducts)
                                         swal("Se ha agregado exitosamente.")
                                     }
                                    

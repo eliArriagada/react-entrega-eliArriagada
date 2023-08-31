@@ -3,12 +3,14 @@ import Item from "./Item";
 import CartWidget from "./CartWidget";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../context/ShoppingCartContext";
-const Navbar = ({ nombre, categorias, producto }) => {
+const Navbar = ({ nombre, categorias }) => {
 const {longitud} = useContext(CartContext)
 let numeroCarro = longitud;
 
-  const [navActive, setActive] = useState("Home")
-  const [setProductos] = useState([])
+const { navActive, setActive } = useContext(CartContext)
+
+
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
