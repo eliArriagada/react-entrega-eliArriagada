@@ -10,6 +10,7 @@ import ItemListContainer from './pages/ItemListContainer';
 import ItemDetailContainer from './pages/ItemDetailContainer';
 import ShoppingCartContext from './context/ShoppingCartContext';
 import CartDetailContainer from './pages/CartDetailContainer';
+import ConfirmContainer from './pages/ConfirmContainer';
 
 function App() {
   const [categorias, setCategorias] = useState([])
@@ -46,6 +47,8 @@ function App() {
         <Route exact path="/category/:category" element={<ItemListContainer />} />
         <Route exact path="/product/:product" element={<ItemDetailContainer />} />
         <Route exact path="/carro" element={<CartDetailContainer />} />
+        <Route exact path="/confirmacion" element={<ConfirmContainer />} />
+
       </Routes>
       <Footer></Footer>
 
