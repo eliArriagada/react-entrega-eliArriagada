@@ -60,7 +60,9 @@ $bootstrap-icons-font-src: url("../../node_modules/bootstrap-icons/font/fonts/bo
         text-decoration: none;
     }
 }
-
+.t-decoration-n {
+    text-decoration: none;
+}
 .active {
     border-bottom: solid 2px $primary;
 }

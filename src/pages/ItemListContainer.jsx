@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import products from '../data/products'
+import { CartContext } from '../context/ShoppingCartContext'
+import swal from 'sweetalert';
 
 function ItemListContainer() {
+
     const { category } = useParams()
     let productos =products.filter(x => x.categoria === category)
-
-
+    const {cart, setCart} = useContext(CartContext)
     return (
         <div className='container'>
                      <div class="row my-5">
@@ -30,7 +32,13 @@ function ItemListContainer() {
                             <div className="card-body">
                                 <h5 className="card-title">{producto.nombre}</h5>
                                 <p className="card-text">{producto.precio}</p>
-                                <a href="#" className="btn btn-primary">Agregar</a>
+                                <button className="btn btn-primary" onClick={()=>{
+                                    
+                                    cart.push(producto)
+                                    setCart(cart)
+                                    swal("Se ha agregado exitosamente.")
+
+                                }}>Agregar</button>
                                 <Link to={`/product/${producto.id}`} className="btn btn-secondary">Ver Detalle
                                 </Link>
                             </div>

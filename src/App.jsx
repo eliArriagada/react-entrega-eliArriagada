@@ -8,6 +8,8 @@ import products from './data/products';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ItemListContainer from './pages/ItemListContainer';
 import ItemDetailContainer from './pages/ItemDetailContainer';
+import ShoppingCartContext from './context/ShoppingCartContext';
+import CartDetailContainer from './pages/CartDetailContainer';
 
 function App() {
   const [categorias, setCategorias] = useState([])
@@ -32,19 +34,24 @@ function App() {
     })
 
 
-
   return (
 
-    <BrowserRouter>
+
+    <>
+    <ShoppingCartContext>
+        <BrowserRouter>
       <Navbar nombre="EveDreams" categorias={categorias}></Navbar>
       <Routes>
         <Route exact path="/" element={<Index />} />
         <Route exact path="/category/:category" element={<ItemListContainer />} />
         <Route exact path="/product/:product" element={<ItemDetailContainer />} />
+        <Route exact path="/carro" element={<CartDetailContainer />} />
       </Routes>
       <Footer></Footer>
 
     </BrowserRouter>
+    </ShoppingCartContext>
+    </>
   );
 }
 

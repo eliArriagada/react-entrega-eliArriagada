@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import products from '../data/products'
+import { CartContext } from '../context/ShoppingCartContext'
+import swal from 'sweetalert';
 
 function ItemDetailContainer() {
     const { product } = useParams()
     const producto = products.filter(x => x.id == product)[0]
-    const [counter, setCounter] = useState(0)
+    const [counter, setCounter] = useState(1)
+    const {cart, setCart} = useContext(CartContext)
 
     const increment = () => {
         if (counter < 10) {
@@ -14,7 +17,7 @@ function ItemDetailContainer() {
     }
 
     const decrement = () => {
-        if (counter > 0) {
+        if (counter > 1) {
             setCounter(counter - 1)
         }
     }
@@ -46,7 +49,6 @@ function ItemDetailContainer() {
 
                         <div class="col">
                             <div class="row py-3">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut debitis nobis eveniet maiores possimus sunt sequi libero minima optio! Recusandae nostrum, rem asperiores reprehenderit vero officiis dicta magni natus quo.
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -63,11 +65,18 @@ function ItemDetailContainer() {
 
                             </div>
                             <div class="row py-3">
-                                <button id="botonAgregar" type="button" class="btn btn-primary">
+                                <button id="botonAgregar" type="button" class="btn btn-primary"  onClick={()=>{
+                                    for (let index = 0; index < counter; index++) {
+                                        cart.push(producto)
+                                        setCart(cart)
+                                        swal("Se ha agregado exitosamente.")
+                                    }
+                                   
+                                }}>
                                     Agregar
                                 </button>
 
-                                <Link to="/" className="btn btn-secondary">Volver</Link>
+                                <Link to={`/category/${producto.categoria}`} className="btn btn-secondary">Volver</Link>
                             </div>
 
 
